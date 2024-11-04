@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
+import { faMoon, faSun, faTrophy } from "@fortawesome/free-solid-svg-icons";
 
 function Square({ value, onSquareClick }) {
   const squareClass = value === "X" ? "X" : value === "O" ? "O" : "";
@@ -44,14 +44,18 @@ export default function Board() {
   let status;
   let statusClass;
   if (winner) {
-    status = "Winner: " + winner;
-    statusClass = "winner";
+    status = (
+      <span>
+        <FontAwesomeIcon icon={faTrophy} /> Winner: {winner}
+      </span>
+    );
+    statusClass = "winner animate-pulse";
   } else if (draw) {
     status = "It's a draw!";
-    statusClass = "draw";
+    statusClass = "draw animate-bounce";
   } else {
-    status = "Next player: " + (xIsNext ? "X" : "O");
-    statusClass = "status";
+    status = `Next player: ${xIsNext ? "X" : "O"}`;
+    statusClass = "status animate-fade-in";
   }
 
   useEffect(() => {
@@ -71,7 +75,7 @@ export default function Board() {
     <div className="h-screen flex flex-col items-center justify-center bg-bgLight dark:bg-bgDark transition-colors duration-500">
       <button
         onClick={toggleDarkMode}
-        className={`relative w-16 h-8 bg-gradient-to-r from-yellow-400 to-red-500 dark:from-purple-600 dark:to-blue-500 rounded-full p-1 flex items-center transition-colors duration-500`}
+        className={`relative w-16 h-8 bg-gradient-to-r from-yellow-400 to-red-500 dark:from-purple-600 dark:to-blue-500 rounded-full p-1 flex items-center transition-colors duration-500 mb-4`}
       >
         <div
           className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-500 ${
@@ -87,7 +91,9 @@ export default function Board() {
           className="absolute right-1 text-blue-300 hidden dark:block"
         />
       </button>
-      <div className={`mb-8 text-2xl ${statusClass}`}>{status}</div>
+      <div className={`mb-8 text-2xl status-container`}>
+        <div className={`${statusClass} animate-fade-in`}>{status}</div>
+      </div>
       <div className="grid grid-cols-3 gap-4">
         {squares.map((square, i) => (
           <Square key={i} value={square} onSquareClick={() => handleClick(i)} />

@@ -573,10 +573,6 @@ html {
   margin-bottom: 2rem;
 }
 
-.mr-2 {
-  margin-right: 0.5rem;
-}
-
 .flex {
   display: flex;
 }
@@ -589,16 +585,16 @@ html {
   display: none;
 }
 
-.h-screen {
-  height: 100vh;
-}
-
 .h-6 {
   height: 1.5rem;
 }
 
 .h-8 {
   height: 2rem;
+}
+
+.h-screen {
+  height: 100vh;
 }
 
 .w-16 {
@@ -616,6 +612,32 @@ html {
 
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8,0,1,1);
+  }
+
+  50% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0,0,0.2,1);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: .5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 .grid-cols-3 {
@@ -675,11 +697,6 @@ html {
   line-height: 2rem;
 }
 
-.text-gray-800 {
-  --tw-text-opacity: 1;
-  color: rgb(31 41 55 / var(--tw-text-opacity));
-}
-
 .text-blue-300 {
   --tw-text-opacity: 1;
   color: rgb(147 197 253 / var(--tw-text-opacity));
@@ -711,6 +728,12 @@ html {
 .duration-500 {
   transition-duration: 500ms;
 }
+
+.bg-bgLight {
+  background-color: #F3F4F6;
+}
+
+/* Square Button Styles */
 
 .square {
   display: flex;
@@ -764,6 +787,18 @@ html {
   color: rgb(255 20 147 / var(--tw-text-opacity));
 }
 
+.status-container {
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Status Message Styles */
+
 .status {
   margin-bottom: 1rem;
   font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -795,7 +830,49 @@ html {
   color: rgb(157 0 255 / var(--tw-text-opacity));
 }
 
-/* Toggle Switch Styles */
+/* Animations */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(-10px);
+  }
+
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+
+.animate-pulse {
+  animation: pulse 1.5s infinite;
+}
 
 /* Toggle Switch Styles */
 
@@ -852,6 +929,8 @@ html {
   color: #9D00FF;
 }
 
+/* Extended Theme Colors */
+
 .dark\:block:is(.dark *) {
   display: block;
 }
@@ -875,7 +954,6 @@ html {
   --tw-gradient-to: #3b82f6 var(--tw-gradient-to-position);
 }
 
-.dark\:text-gray-200:is(.dark *) {
-  --tw-text-opacity: 1;
-  color: rgb(229 231 235 / var(--tw-text-opacity));
+.dark\:bg-bgDark:is(.dark *) {
+  background-color: #1A202C;
 }
