@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Press Start 2P', 'Roboto', sans-serif;
+  }
+}
+
+.square {
+  @apply w-24 h-24 border-2 border-gray-500 text-4xl flex items-center justify-center transition-transform duration-500 transform hover:scale-110;
+}
+
+.dark .square {
+  @apply bg-gray-800 text-neonGreen border-neonPurple;
+}
+
+.X {
+  @apply text-blue-500;
+}
+
+.dark .X {
+  @apply text-neonGreen;
+}
+
+.O {
+  @apply text-red-500;
+}
+
+.dark .O {
+  @apply text-neonPink;
+}
+
+.status {
+  @apply font-sans font-medium mb-4;
+}
+
+.dark .status {
+  @apply text-neonYellow;
+}
+
+.winner {
+  @apply text-green-500;
+}
+
+.dark .winner {
+  @apply text-neonPink;
+}
+
+.draw {
+  @apply text-yellow-500;
+}
+
+.dark .draw {
+  @apply text-neonPurple;
+}
+
+/* Toggle Switch Styles */
+/* Toggle Switch Styles */
+.toggle-checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.toggle-slot {
+  display: flex;
+  align-items: center;
+  background-color: #ccc;
+  border-radius: 34px;
+  width: 60px;
+  height: 34px;
+  position: relative;
+  padding: 2px;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-checkbox:checked+.toggle-slot {
+  background-color: #4A5568;
+  /* Dark mode color */
+}
+
+.toggle-button {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.toggle-checkbox:checked+.toggle-slot .toggle-button {
+  transform: translateX(26px);
+}
+
+.sun-icon,
+.moon-icon {
+  position: absolute;
+  top: 4px;
+  font-size: 20px;
+}
+
+.sun-icon {
+  left: 6px;
+  color: #FDB813;
+}
+
+.moon-icon {
+  right: 6px;
+  color: #9D00FF;
+}

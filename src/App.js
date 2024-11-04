@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 
 function Square({ value, onSquareClick }) {
+  const squareClass = value === "X" ? "X" : value === "O" ? "O" : "";
   return (
-    <button className="square" onClick={onSquareClick}>
+    <button className={`square ${squareClass}`} onClick={onSquareClick}>
       {value}
     </button>
   );
@@ -12,6 +15,13 @@ export default function Board() {
   const [xIsNext, setXIsNext] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [draw, setDraw] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    return (
+      localStorage.getItem("theme") === "dark" ||
+      (!localStorage.getItem("theme") &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    );
+  });
 
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares) || draw) {
@@ -41,29 +51,49 @@ export default function Board() {
     statusClass = "draw";
   } else {
     status = "Next player: " + (xIsNext ? "X" : "O");
+    statusClass = "status";
   }
 
+  useEffect(() => {
+    const rootElement = document.documentElement;
+    if (isDarkMode) {
+      rootElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      rootElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
+
   return (
-    <>
-      <div className="status-container">
-        <p className={`status ${statusClass}`}>{status}</p>
+    <div className="h-screen flex flex-col items-center justify-center bg-bgLight dark:bg-bgDark transition-colors duration-500">
+      <button
+        onClick={toggleDarkMode}
+        className={`relative w-16 h-8 bg-gradient-to-r from-yellow-400 to-red-500 dark:from-purple-600 dark:to-blue-500 rounded-full p-1 flex items-center transition-colors duration-500`}
+      >
+        <div
+          className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-500 ${
+            isDarkMode ? "translate-x-8" : ""
+          }`}
+        ></div>
+        <FontAwesomeIcon
+          icon={faSun}
+          className="absolute left-1 text-yellow-500 dark:hidden"
+        />
+        <FontAwesomeIcon
+          icon={faMoon}
+          className="absolute right-1 text-blue-300 hidden dark:block"
+        />
+      </button>
+      <div className={`mb-8 text-2xl ${statusClass}`}>{status}</div>
+      <div className="grid grid-cols-3 gap-4">
+        {squares.map((square, i) => (
+          <Square key={i} value={square} onSquareClick={() => handleClick(i)} />
+        ))}
       </div>
-      <div className="board-row">
-        <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
-        <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
-        <Square value={squares[2]} onSquareClick={() => handleClick(2)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[3]} onSquareClick={() => handleClick(3)} />
-        <Square value={squares[4]} onSquareClick={() => handleClick(4)} />
-        <Square value={squares[5]} onSquareClick={() => handleClick(5)} />
-      </div>
-      <div className="board-row">
-        <Square value={squares[6]} onSquareClick={() => handleClick(6)} />
-        <Square value={squares[7]} onSquareClick={() => handleClick(7)} />
-        <Square value={squares[8]} onSquareClick={() => handleClick(8)} />
-      </div>
-    </>
+    </div>
   );
 }
 
