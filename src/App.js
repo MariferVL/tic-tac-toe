@@ -15,6 +15,7 @@ export default function Board() {
   const [xIsNext, setXIsNext] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [draw, setDraw] = useState(false);
+  const [score, setScore] = useState({ X: 0, O: 0 });
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return (
       localStorage.getItem("theme") === "dark" ||
@@ -40,7 +41,23 @@ export default function Board() {
     }
   }
 
+  function handleReset() {
+    setSquares(Array(9).fill(null));
+    setDraw(false);
+    setXIsNext(true);
+  }
+
   const winner = calculateWinner(squares);
+
+  useEffect(() => {
+    if (winner) {
+      setScore((prevScore) => ({
+        ...prevScore,
+        [winner]: prevScore[winner] + 1,
+      }));
+    }
+  }, [winner]);
+
   let status;
   let statusClass;
   if (winner) {
@@ -72,7 +89,7 @@ export default function Board() {
   const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center bg-bgLight dark:bg-bgDark transition-colors duration-500">
+    <div className="h-screen py-2 flex flex-col items-center justify-center bg-softGrey dark:bg-bgDark transition-colors duration-500">
       <button
         onClick={toggleDarkMode}
         className={`relative w-16 h-8 bg-gradient-to-r from-yellow-400 to-red-500 dark:from-purple-600 dark:to-blue-500 rounded-full p-1 flex items-center transition-colors duration-500 mb-4`}
@@ -91,6 +108,10 @@ export default function Board() {
           className="absolute right-1 text-blue-300 hidden dark:block"
         />
       </button>
+      <div className="scoreboard mb-4">
+        <div className="score">X: {score.X}</div>
+        <div className="score">O: {score.O}</div>
+      </div>
       <div className={`mb-8 text-2xl status-container`}>
         <div className={`${statusClass} animate-fade-in`}>{status}</div>
       </div>
@@ -99,6 +120,12 @@ export default function Board() {
           <Square key={i} value={square} onSquareClick={() => handleClick(i)} />
         ))}
       </div>
+      <button
+        onClick={handleReset}
+        className="mt-4 px-6 py-2 bg-gradient-to-r from-orange-400 to-orange-700 dark:from-purple-600 dark:to-blue-500 text-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+      >
+        Reset Game
+      </button>
     </div>
   );
 }
