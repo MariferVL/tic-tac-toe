@@ -25,8 +25,8 @@ def check_draw(board):
     return all(cell != ' ' for row in board for cell in row)
 
 def tic_tac_toe():
-    """Main function to play Tic-Tac-Toe."""
-    print("\n🎉 Welcome to Tic-Tac-Toe! 🎉")
+    """Main function to play Tic Tac Toe."""
+    print("\n🎉 Welcome to Tic Tac Toe! 🎉")
     print("\nPlayer ❌ goes first.\n")
 
     board = [[' ' for _ in range(3)] for _ in range(3)]
