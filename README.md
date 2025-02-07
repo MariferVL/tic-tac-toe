@@ -69,6 +69,3 @@ Alternatively, you can review the provided code in `main.py` and `advanced.py`, 
 
 Contributions are welcome! Feel free to fork this repository, make your changes, and submit a pull request.
 
----
-
-Enjoy learning Python with Tic-Tac-Toe! If you have any questions or need further assistance, don't hesitate to ask.
